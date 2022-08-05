@@ -27,8 +27,6 @@ const num = 10;
 const PI = 3.14
 */
 
-console.log(345); //1
-
 const greetingsConst = `Hello, `; //2*
 const name = "Peter";
 console.log(greetingsConst + name);
