@@ -1,0 +1,4 @@
+git checkout -b hometask7 master
+git add .
+git commit -m 'JS3: hometask 7'
+git push --set-upstream origin hometask7
