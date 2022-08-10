@@ -15,6 +15,24 @@
  *
  * Количество рядов необходимо передавать аргументом, решить задачу желательно рекурсивно
  */
+function art(width) {
+  let result = "";
+
+  if (width % 2 === 0) {
+    result += "/|/|/|/|/|/|/|/|\n";
+  }
+  if (width % 2 !== 0) {
+    result += "|/|/|/|/|/|/|/|/\n";
+  }
+  if (width === 1) {
+    return result;
+  }
+  result += art(width - 1);
+  return result;
+}
+console.log("1. Рисунок");
+console.log(art(10));
+console.log("\n");
 
 /**
  * 2. Написать функцию, которая рекурсивно посчитает n-е число Фибоначчи
@@ -22,6 +40,19 @@
  * Первое и второе число равны 1, таким образом ряд Фибоначчи равен
  * 1 1 2 3 5 8 13 21 34 ....
  */
+function fibo(num) {
+  if (num === 1) {
+    return 1;
+  }
+  if (num === 2) {
+    return 1;
+  }
+  let result = fibo(num - 2) + fibo(num - 1);
+  return result;
+}
+console.log("2. Число Фибоначчи");
+console.log(fibo(10));
+console.log("\n");
 
 const products = [
   {
@@ -729,29 +760,191 @@ const products = [
 /**
  * 3. Написать функцию, которая найдёт самый дорогой товар в магазине
  */
+function mostExpensive(array) {
+  array.sort(function (a, b) {
+    if (a.price > b.price) {
+      return -1;
+    }
+    if (a.price < b.price) {
+      return +1;
+    }
+    return 0;
+  });
+  return array[0];
+}
+console.log("3. Самый дорогой товар в магазине");
+console.log(mostExpensive(products));
+console.log("\n");
 
 /**
  * 4. Написать функцию, которая посчитает стоимость всех товаров
  */
 
-function calculatePrice() {}
+function sumOfPrices(array) {
+  return array
+    .reduce((sum, item) => {
+      let amountInStock = item.price * item.count;
+      sum += amountInStock;
+      return sum;
+    }, 0)
+    .toFixed(2);
+}
+console.log("4. Стоимость всех товаров");
+console.log(sumOfPrices(products));
+console.log("\n");
 
 /**
  * 5. Отсортировать товары по убыванию цены
  */
+function SortingFromCheap(array) {
+  array.sort(function (a, b) {
+    if (a.price > b.price) {
+      return -1;
+    }
+    if (a.price < b.price) {
+      return +1;
+    }
+    return 0;
+  });
+  return array;
+}
+
+console.log("5. Товары по убыванию цены");
+console.log(SortingFromCheap(products));
+console.log("\n");
 
 /**
  * 6. Найти товар без описания, вернуть его ID
  */
+/*v1*/
+function itemWithoutDescription(array) {
+  return array.filter((element) => {
+    return !element.description === true;
+  });
+}
+/*v2*/
+// function itemWithoutDescription(array) {
+//   result = [];
+//   array.forEach((element) => {
+//     if (!element.description === true) {
+//       result.push(element.id);
+//     }
+//   });
+//   return result;
+// }
+
+console.log("6. Товар без описания");
+console.log(itemWithoutDescription(products));
+console.log("\n");
 
 /**
  * 7. Отсортировать товары по убыванию цены
  */
+/*v1*/
+function totalCostInStock(array) {
+  array.sort(function (a, b) {
+    if (a.price * a.count > b.price * b.count) {
+      return -1;
+    }
+    if (a.price * a.count < b.price * b.count) {
+      return +1;
+    }
+    return 0;
+  });
+
+  return array;
+}
+/*v2*/
+// function totalCostInStock(array) {
+//   let result = [...array];
+//   result.forEach((element) => {
+//     element.warehousePrice = element.price * element.count;
+//   });
+//   result = result.sort(function (a, b) {
+//     if (a.warehousePrice > b.warehousePrice) {
+//       return -1;
+//     }
+//     if (a.warehousePrice < b.warehousePrice) {
+//       return +1;
+//     }
+//     return 0;
+//   });
+//   result.forEach((element) => {
+//     delete element.warehousePrice;
+//   });
+//   return result;
+// }
+console.log("7. Общая стоимость на складе");
+console.log(totalCostInStock(products));
+console.log("\n");
 
 /**
  * 8. Написать функцию, которая будет возвращать список товаров выше указаной цены.
  * Возвращать товары в отсортированном порядке
  */
+/* v1 */
+function productAbovePrice(array, sum) {
+  let lastItemNeeded;
+  array.sort(function (a, b) {
+    if (a.price > b.price) {
+      return -1;
+    }
+    if (a.price < b.price) {
+      return +1;
+    }
+    return 0;
+  });
+  for (let i = 0; i < array.length; i++) {
+    if (array[i].price > sum) {
+      lastItemNeeded = i;
+    }
+    if (array[i].price <= sum) {
+      break;
+    }
+  }
+  return array.slice(0, lastItemNeeded);
+}
+/*v2*/
+// function productAbovePrice(array, sum) {
+//   let result = [];
+//   for (let i = 0; i < array.length; i++) {
+//     if (array[i].price > sum) {
+//       result.push(array[i]);
+//     }
+//   }
+//   result.sort(function (a, b) {
+//     if (a.price > b.price) {
+//       return -1;
+//     }
+//     if (a.price < b.price) {
+//       return +1;
+//     }
+//     return 0;
+//   });
+//   return result;
+// }
+/*v3*/
+// function productAbovePrice(array, sum) {
+//   let result = [];
+//   array = array.sort(function (a, b) {
+//     if (a.price > b.price) {
+//       return -1;
+//     }
+//     if (a.price < b.price) {
+//       return +1;
+//     }
+//     return 0;
+//   });
+//   array.forEach((element) => {
+//     if (element.price >= sum) {
+//       result.push(element);
+//     }
+//   });
+//   return result;
+// }
+console.log("8. Товар выше заданной цены");
+console.log(productAbovePrice(products, 570));
+console.log("\n");
 
 /**
  * 9. Написать функцию, которая посчитает максимальное, количество единиц товара, которое
@@ -761,3 +954,38 @@ function calculatePrice() {}
  * Учитывать количество продуктов на складе, продукты вернуть массивом строк
  * В формате "название:количество - цена"
  */
+function maximumGoods(array, sum) {
+  let result = [];
+  let quantityOfGoods;
+  let i = 0;
+
+  array = array.sort(function (a, b) {
+    if (a.price > b.price) {
+      return +1;
+    }
+    if (a.price < b.price) {
+      return -1;
+    }
+    return 0;
+  });
+
+  while (sum > array[i].price && i < array.length) {
+    quantityOfGoods = Math.floor(sum / array[i].price);
+    if (quantityOfGoods > array[i].count) {
+      quantityOfGoods = array[i].count;
+    }
+    sum = sum - quantityOfGoods * array[i].price;
+    result.push(
+      `Product// ${array[i].name}: ${quantityOfGoods} - ${array[i].price}`
+    );
+    i++;
+  }
+
+  result.push(`Rest of money ${sum.toFixed(2)}`);
+
+  return result;
+}
+
+console.log("9. Максимальное количество товаров");
+console.log(maximumGoods(products, 10000));
+console.log("\n");
