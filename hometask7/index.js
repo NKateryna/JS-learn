@@ -808,7 +808,6 @@ function SortingFromCheap(array) {
   });
   return array;
 }
-
 console.log("5. Товары по убыванию цены");
 console.log(SortingFromCheap(products));
 console.log("\n");
@@ -816,31 +815,19 @@ console.log("\n");
 /**
  * 6. Найти товар без описания, вернуть его ID
  */
-/*v1*/
 function itemWithoutDescription(array) {
   return array.filter((element) => {
     return !element.description === true;
   });
 }
-/*v2*/
-// function itemWithoutDescription(array) {
-//   result = [];
-//   array.forEach((element) => {
-//     if (!element.description === true) {
-//       result.push(element.id);
-//     }
-//   });
-//   return result;
-// }
-
 console.log("6. Товар без описания");
 console.log(itemWithoutDescription(products));
 console.log("\n");
 
 /**
- * 7. Отсортировать товары по убыванию цены
+ * 7. Отсортировать товары по общей стоимости на складе
  */
-/*v1*/
+
 function totalCostInStock(array) {
   array.sort(function (a, b) {
     if (a.price * a.count > b.price * b.count) {
@@ -854,26 +841,6 @@ function totalCostInStock(array) {
 
   return array;
 }
-/*v2*/
-// function totalCostInStock(array) {
-//   let result = [...array];
-//   result.forEach((element) => {
-//     element.warehousePrice = element.price * element.count;
-//   });
-//   result = result.sort(function (a, b) {
-//     if (a.warehousePrice > b.warehousePrice) {
-//       return -1;
-//     }
-//     if (a.warehousePrice < b.warehousePrice) {
-//       return +1;
-//     }
-//     return 0;
-//   });
-//   result.forEach((element) => {
-//     delete element.warehousePrice;
-//   });
-//   return result;
-// }
 console.log("7. Общая стоимость на складе");
 console.log(totalCostInStock(products));
 console.log("\n");
@@ -882,7 +849,7 @@ console.log("\n");
  * 8. Написать функцию, которая будет возвращать список товаров выше указаной цены.
  * Возвращать товары в отсортированном порядке
  */
-/* v1 */
+
 function productAbovePrice(array, sum) {
   let lastItemNeeded;
   array.sort(function (a, b) {
@@ -904,46 +871,29 @@ function productAbovePrice(array, sum) {
   }
   return array.slice(0, lastItemNeeded);
 }
-/*v2*/
-// function productAbovePrice(array, sum) {
-//   let result = [];
-//   for (let i = 0; i < array.length; i++) {
-//     if (array[i].price > sum) {
-//       result.push(array[i]);
-//     }
-//   }
-//   result.sort(function (a, b) {
-//     if (a.price > b.price) {
-//       return -1;
-//     }
-//     if (a.price < b.price) {
-//       return +1;
-//     }
-//     return 0;
-//   });
-//   return result;
-// }
-/*v3*/
-// function productAbovePrice(array, sum) {
-//   let result = [];
-//   array = array.sort(function (a, b) {
-//     if (a.price > b.price) {
-//       return -1;
-//     }
-//     if (a.price < b.price) {
-//       return +1;
-//     }
-//     return 0;
-//   });
-//   array.forEach((element) => {
-//     if (element.price >= sum) {
-//       result.push(element);
-//     }
-//   });
-//   return result;
-// }
+
+function productAbovePriceV2(array, sum) {
+  let result = [];
+  for (let i = 0; i < array.length; i++) {
+    if (array[i].price > sum) {
+      result.push(array[i]);
+    }
+  }
+  result.sort(function (a, b) {
+    if (a.price > b.price) {
+      return -1;
+    }
+    if (a.price < b.price) {
+      return +1;
+    }
+    return 0;
+  });
+  return result;
+}
+
 console.log("8. Товар выше заданной цены");
 console.log(productAbovePrice(products, 570));
+console.log(productAbovePriceV2(products, 570));
 console.log("\n");
 
 /**
