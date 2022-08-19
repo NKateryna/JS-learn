@@ -12,22 +12,28 @@ const fetch = require("node-fetch");
  * 1. Сделать GET запрос на сервер за адресом http://localhost:3000/users
  * И вернуть только значимую часть запроса (Идентификатор, например, не выводится на экран, потому для обработки он может быть ненужен).
  */
-function UsersInfofetch() {
-  fetch("http://localhost:3000/users", {
-    method: "GET",
-  })
-    .then((response) => {
-      return response.json();
+function daleteInfo(array, ...key) {
+  array.forEach((element) => {
+    for (let i = 0; i < key.length; i++) {
+      delete element[key[i]];
+    }
+  });
+  return array;
+}
+
+function readUsers(...key) {
+  fetch("http://localhost:3000/users")
+    .then((response) => response.json())
+    .then((data) => {
+      daleteInfo(data, ...key);
+      return data;
     })
-    .then((json) => {
-      json.forEach((element) => {
-        delete element.id;
-      });
-      console.log(json);
+    .then((data) => {
+      console.log(data);
     });
 }
 
-UsersInfofetch();
+readUsers("id");
 
 /**
  * 2. Сделать POST запрос на сервер за адресом http://localhost:3000/users
@@ -36,24 +42,24 @@ UsersInfofetch();
  * Всех пользователей и убедиться в том что новый пользователь добавлен
  */
 
-function postCheckfetch(userName, userSurname, userAge) {
+function createUser(user = {}) {
   fetch("http://localhost:3000/users", {
     method: "POST",
-    body: JSON.stringify({
-      name: userName,
-      surname: userSurname,
-      age: userAge,
-    }),
+    body: JSON.stringify(user),
     headers: {
-      "Content-type": "application/json; charset=UTF-8",
+      "Content-type": "application/json",
     },
   }).then(() =>
     fetch("http://localhost:3000/users")
       .then((response) => response.json())
-      .then((json) => console.log(json))
+      .then((data) => console.log(data))
   );
 }
-postCheckfetch("Maksim", `Citrusov`, 34);
+createUser({
+  name: "Maksim",
+  surname: "Citrusov",
+  age: 34,
+});
 
 /**
  * 3. При помощи DELETE запроса на сервер за адресом http://localhost:3000/users
@@ -61,16 +67,16 @@ postCheckfetch("Maksim", `Citrusov`, 34);
  * После успешного запроса отправить новый запрос для того чтобы получить
  * Всех пользователей и убедиться в том что пользователь удален
  */
-function deleteCheckfetch() {
-  fetch("http://localhost:3000/users/3", {
+function deleteUsers(idUser) {
+  fetch(`http://localhost:3000/users/${idUser}`, {
     method: "DELETE",
   }).then(() =>
     fetch("http://localhost:3000/users")
       .then((response) => response.json())
-      .then((json) => console.log(json))
+      .then((data) => console.log(data))
   );
 }
-deleteCheckfetch();
+deleteUsers(3);
 
 /**
  * 4. Получить данные про пользователя за адресом http://localhost:3000/users/1 используя метод GET
@@ -78,35 +84,30 @@ deleteCheckfetch();
  * После сделать запрос GET на сервер за адресом http://localhost:3000/users/1
  * И получить данные про измененного пользователя
  */
+function transformedModel(odj, key, value) {
+  odj[key] = value;
+  return odj;
+}
 
-function ageChangefetchUser1(newAge) {
-  fetch("http://localhost:3000/users/1", {
-    method: "GET",
-  })
+function updateUserAge(idUser, key, value) {
+  fetch(`http://localhost:3000/users/${idUser}`)
     .then((response) => response.json())
-    .then((json) => {
-      console.log(json);
-      let jsonNew = json;
-      jsonNew.age = newAge;
-
-      return jsonNew;
+    .then((data) => {
+      transformedModel(data, key, value);
+      return data;
     })
-    .then((jsonNew) =>
-      fetch("http://localhost:3000/users/1", {
+    .then((data) =>
+      fetch(`http://localhost:3000/users/${idUser}`, {
         method: "PUT",
-        body: JSON.stringify({ ...jsonNew }),
+        body: JSON.stringify(data),
         headers: {
-          "Content-type": "application/json; charset=UTF-8",
+          "Content-type": "application/json",
         },
       })
     )
-    .then(() =>
-      fetch("http://localhost:3000/users/1", {
-        method: "GET",
-      })
-    )
+    .then(() => fetch(`http://localhost:3000/users/${idUser}`))
     .then((response) => response.json())
-    .then((json) => console.log(json));
+    .then((data) => console.log(data));
 }
 
-ageChangefetchUser1(66);
+updateUserAge(1, "age", 66);
