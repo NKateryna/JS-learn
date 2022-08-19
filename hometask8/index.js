@@ -12,6 +12,8 @@ const fetch = require("node-fetch");
  * 1. Сделать GET запрос на сервер за адресом http://localhost:3000/users
  * И вернуть только значимую часть запроса (Идентификатор, например, не выводится на экран, потому для обработки он может быть ненужен).
  */
+const BASE_URL = "http://localhost:3000";
+
 function daleteInfo(array, ...key) {
   array.forEach((element) => {
     for (let i = 0; i < key.length; i++) {
@@ -22,7 +24,7 @@ function daleteInfo(array, ...key) {
 }
 
 function readUsers(...key) {
-  fetch("http://localhost:3000/users")
+  fetch(`${BASE_URL}/users/`)
     .then((response) => response.json())
     .then((data) => {
       daleteInfo(data, ...key);
@@ -43,14 +45,14 @@ readUsers("id");
  */
 
 function createUser(user = {}) {
-  fetch("http://localhost:3000/users", {
+  fetch(`${BASE_URL}/users/`, {
     method: "POST",
     body: JSON.stringify(user),
     headers: {
       "Content-type": "application/json",
     },
   }).then(() =>
-    fetch("http://localhost:3000/users")
+    fetch(`${BASE_URL}/users/`)
       .then((response) => response.json())
       .then((data) => console.log(data))
   );
@@ -67,11 +69,11 @@ createUser({
  * После успешного запроса отправить новый запрос для того чтобы получить
  * Всех пользователей и убедиться в том что пользователь удален
  */
-function deleteUsers(idUser) {
-  fetch(`http://localhost:3000/users/${idUser}`, {
+function deleteUsers(id) {
+  fetch(`${BASE_URL}/users/${id}`, {
     method: "DELETE",
   }).then(() =>
-    fetch("http://localhost:3000/users")
+    fetch(`${BASE_URL}/users/`)
       .then((response) => response.json())
       .then((data) => console.log(data))
   );
@@ -89,15 +91,15 @@ function transformedModel(odj, key, value) {
   return odj;
 }
 
-function updateUserAge(idUser, key, value) {
-  fetch(`http://localhost:3000/users/${idUser}`)
+function updateUserAge(id, key, value) {
+  fetch(`${BASE_URL}/users/${id}`)
     .then((response) => response.json())
     .then((data) => {
       transformedModel(data, key, value);
       return data;
     })
     .then((data) =>
-      fetch(`http://localhost:3000/users/${idUser}`, {
+      fetch(`${BASE_URL}/users/${id}`, {
         method: "PUT",
         body: JSON.stringify(data),
         headers: {
@@ -105,7 +107,7 @@ function updateUserAge(idUser, key, value) {
         },
       })
     )
-    .then(() => fetch(`http://localhost:3000/users/${idUser}`))
+    .then(() => fetch(`${BASE_URL}/users/${id}`))
     .then((response) => response.json())
     .then((data) => console.log(data));
 }
