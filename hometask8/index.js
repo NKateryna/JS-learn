@@ -14,20 +14,20 @@ const fetch = require("node-fetch");
  */
 const BASE_URL = "http://localhost:3000";
 
-function daleteInfo(array, ...key) {
+function deleteInfo(array, ...keys) {
   array.forEach((element) => {
-    for (let i = 0; i < key.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
       delete element[key[i]];
     }
   });
   return array;
 }
 
-function readUsers(...key) {
+function readUsers() {
   fetch(`${BASE_URL}/users/`)
     .then((response) => response.json())
     .then((data) => {
-      daleteInfo(data, ...key);
+      deleteInfo(data, "id");
       return data;
     })
     .then((data) => {
@@ -35,7 +35,7 @@ function readUsers(...key) {
     });
 }
 
-readUsers("id");
+readUsers();
 
 /**
  * 2. Сделать POST запрос на сервер за адресом http://localhost:3000/users
