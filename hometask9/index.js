@@ -31,7 +31,7 @@ async function readUsers() {
   console.log(deleteInfo(users, "id"));
 }
 
-// readUsers();
+readUsers();
 
 /**
  * 2. Сделать POST запрос на сервер за адресом http://localhost:3000/users
@@ -54,11 +54,11 @@ async function createUser(user = {}) {
   console.log(users);
 }
 
-// createUser({
-//   name: "Maksim",
-//   surname: "Citrusov",
-//   age: 34,
-// });
+createUser({
+  name: "Maksim",
+  surname: "Citrusov",
+  age: 34,
+});
 
 /**
  * 3. При помощи DELETE запроса на сервер за адресом http://localhost:3000/users
@@ -78,7 +78,7 @@ async function deleteUsers(id) {
   console.log(users);
 }
 
-// deleteUsers(3);
+deleteUsers(3);
 
 /**
  * 4. Получить данные про пользователя за адресом http://localhost:3000/users/1 используя метод GET
