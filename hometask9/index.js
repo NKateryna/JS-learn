@@ -31,7 +31,7 @@ async function readUsers() {
   console.log(deleteInfo(users, "id"));
 }
 
-readUsers();
+// readUsers();
 
 /**
  * 2. Сделать POST запрос на сервер за адресом http://localhost:3000/users
@@ -54,11 +54,11 @@ async function createUser(user = {}) {
   console.log(users);
 }
 
-createUser({
-  name: "Maksim",
-  surname: "Citrusov",
-  age: 34,
-});
+// createUser({
+//   name: "Maksim",
+//   surname: "Citrusov",
+//   age: 34,
+// });
 
 /**
  * 3. При помощи DELETE запроса на сервер за адресом http://localhost:3000/users
@@ -78,7 +78,7 @@ async function deleteUsers(id) {
   console.log(users);
 }
 
-deleteUsers(3);
+// deleteUsers(3);
 
 /**
  * 4. Получить данные про пользователя за адресом http://localhost:3000/users/1 используя метод GET
@@ -88,9 +88,17 @@ deleteUsers(3);
  *
  * Переписать выполнение с использованием синтаксиса async/await
  */
-function transformedModel(odj, key, value) {
-  odj[key] = value;
-  return odj;
+
+function transformedModel(obj, info = {}, ...keys) {
+  const user = Object.assign(obj, info);
+  Object.keys(user).forEach((element) => {
+    for (let i = 0; i < keys.length; i++) {
+      if (element.toString() === keys[i]) {
+        delete user[keys[i]];
+      }
+    }
+  });
+  return user;
 }
 
 async function updateUserAge(id, key, value) {
@@ -109,4 +117,4 @@ async function updateUserAge(id, key, value) {
   console.log(userUpdate);
 }
 
-updateUserAge(1, "age", 66);
+updateUserAge(1, { age: 66 });

@@ -11,6 +11,12 @@
       "name": "Peter",
       "location": "Tyson",
       "age": 45
+    },
+    {
+      "name": "Maksim",
+      "surname": "Citrusov",
+      "age": 34,
+      "id": 3
     }
   ]
 }
