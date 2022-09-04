@@ -1,1 +1,117 @@
 /*Write your css here*/
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  box-sizing: border-box;
+  font-family: "inter";
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.main {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: #0e1621;
+  position: absolute;
+}
+
+.channel-list {
+  width: 320px;
+  background-color: #17212b;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.channel {
+  width: 320px;
+  height: 56px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 21px;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.channel-info {
+  width: 248px;
+  height: 36px;
+  row-gap: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.name {
+  color: #ffffff;
+  font-weight: 700;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.message-time {
+  font-weight: 300;
+  color: #8696a8;
+}
+
+.message {
+  height: 12px;
+  font-weight: 400;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #8696a8;
+}
+
+.unread-messages {
+  padding: 0px 4px;
+  font-weight: 500;
+  font-size: 8px;
+  line-height: 10px;
+  border-radius: 6px;
+  text-align: center;
+  background: #4082bc;
+  color: #ffffff;
+}
+
+/*variations*/
+
+.channel.muted .unread-messages {
+  background-color: #3e546a;
+}
+
+.channel.muted.active .unread-messages {
+  background-color: #7aa3ca;
+  color: #2a537e;
+}
+
+.channel.active .unread-messages {
+  background-color: #ffffff;
+  color: #2a537e;
+}
+.channel.active {
+  background-color: #2b5278;
+}
+.channel.active .message {
+  color: #ffffff;
+}
