@@ -1,7 +1,13 @@
+import "./style.css";
+import Image from "../public/img/1.png";
+import CompanyLogo from "./company-logo";
+import DefoulButton from "./default-button";
+import AuthorizationWindow from "./authorization-window";
+
 function createAuthorizationnPage() {
   const wraper = document.querySelector("main.wraper");
   const loginSection = createLoginSection();
-  const mainImg = createImg(`../public/img/1.png`);
+  const mainImg = createImg(Image);
   wraper.append(loginSection, mainImg);
 
   return wraper;
@@ -12,7 +18,7 @@ function createLoginSection() {
   const section = document.createElement("section");
   section.classList.add("login");
 
-  const companyLogo = createCompanyLogo();
+  const companyLogo = CompanyLogo();
   companyLogo.classList.add("login__company-logo");
 
   const header = document.createElement("h1");
@@ -34,29 +40,14 @@ function createImg(src) {
   return img;
 }
 
-/*Components for function createLoginSection*/
-function createCompanyLogo() {
-  const logo = document.createElement("div");
-  logo.classList.add("company-logo");
-  const logoCircle = document.createElement("div");
-  logoCircle.classList.add("company-logo__circle");
-  logoCircle.innerText = "F";
-  const logoText = document.createElement("div");
-  logoText.classList.add("company-logo__text");
-  logoText.innerText = "FLEEK";
-  logo.append(logoCircle, logoText);
-
-  return logo;
-}
-
 function createLoginContainer() {
   const container = document.createElement("form");
   container.classList.add("login__container");
 
-  const email = authorizationWindow("email", "Email", "email", "Enter email");
+  const email = AuthorizationWindow("email", "Email", "email", "Enter email");
   email.classList.add("login__authorization-window");
 
-  const password = authorizationWindow(
+  const password = AuthorizationWindow(
     "password",
     "Password",
     "password",
@@ -68,50 +59,12 @@ function createLoginContainer() {
   );
   password.classList.add("login__authorization-window");
 
-  const button = createButton();
+  const button = DefoulButton();
   button.classList.add("login__main-button");
 
   container.append(email, password, button);
+
   return container;
-}
-
-function authorizationWindow(name, text, type, placeholder, sideLink = null) {
-  const box = document.createElement("div");
-  box.classList.add("authorization-window");
-
-  const label = document.createElement("label");
-  label.classList.add("authorization-window__title");
-  label.setAttribute("for", name);
-  label.innerText = text;
-
-  const input = document.createElement("input");
-  input.classList.add("authorization-window__input");
-  input.setAttribute("type", type);
-  input.setAttribute("name", name);
-  input.setAttribute("placeholder", placeholder);
-
-  box.append(label, input);
-
-  if (sideLink) {
-    const link = document.createElement("a");
-    link.classList.add("login__link-help");
-    link.innerText = sideLink.label;
-    box.appendChild(link);
-  }
-
-  return box;
-}
-
-function createButton() {
-  const button = document.createElement("button");
-  button.classList.add("main-button");
-  button.setAttribute("type", "submit");
-  button.innerText = "Log in";
-  button.addEventListener("click", () => {
-    button.classList.add("main-button_active");
-  });
-
-  return button;
 }
 
 createAuthorizationnPage();
