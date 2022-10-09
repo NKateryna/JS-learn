@@ -1,5 +1,6 @@
 git checkout master
 git pull
+git rebase master
 git checkout -b hometask7 master
 git add .
 git commit -m 'JS3: hometask 7'
